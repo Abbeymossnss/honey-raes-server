@@ -9,6 +9,15 @@ from repairsapi.models import ServiceTicket, Customer, Employee
 class TicketView(ViewSet):
     """Honey Rae API customers view"""
 
+
+    def destroy(self, request, pk=None):
+        """handle  delete requests for service tickets."""
+        service_ticket = ServiceTicket.objects.get(pk=pk)
+        service_ticket.delete()
+
+        """Returns: Response:None. with 204 status code"""
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
+    
     def list(self, request):
         """Handle GET requests to get all customers
 
@@ -39,6 +48,7 @@ class TicketView(ViewSet):
         Returns:
             Response -- JSON serialized customer record
         """
+
 
         ticket = ServiceTicket.objects.get(pk=pk)
         serialized = ServiceTicketSerializer(ticket, context={'request': request})
